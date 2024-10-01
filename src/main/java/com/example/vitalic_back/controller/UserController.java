@@ -1,9 +1,9 @@
 package com.example.vitalic_back.controller;
 
 import com.example.vitalic_back.DTO.SignUpDto;
-import com.example.vitalic_back.Service.UserService;
 import com.example.vitalic_back.entity.User;
 import com.example.vitalic_back.repository.UserRepository;
+import com.example.vitalic_back.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

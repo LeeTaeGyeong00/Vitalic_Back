@@ -1,4 +1,4 @@
-package com.example.vitalic_back.Service;
+package com.example.vitalic_back.service;
 
 import com.example.vitalic_back.DTO.SignUpDto;
 import com.example.vitalic_back.jwt.JwtTokenProvider;

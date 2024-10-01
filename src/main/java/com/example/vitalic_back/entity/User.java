@@ -46,6 +46,9 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(name = "modDate")
     private LocalDateTime modDate;
 
+    @Column(name ="userBudget")
+    private Long userBudget;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

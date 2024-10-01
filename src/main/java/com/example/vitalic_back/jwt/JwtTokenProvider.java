@@ -1,6 +1,6 @@
 package com.example.vitalic_back.jwt;
 
-import com.example.vitalic_back.Service.CustomUserDetailService;
+import com.example.vitalic_back.service.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

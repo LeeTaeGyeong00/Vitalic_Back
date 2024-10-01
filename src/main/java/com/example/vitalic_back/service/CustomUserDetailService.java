@@ -1,4 +1,4 @@
-package com.example.vitalic_back.Service;
+package com.example.vitalic_back.service;
 
 import com.example.vitalic_back.entity.User;
 import com.example.vitalic_back.repository.UserRepository;
