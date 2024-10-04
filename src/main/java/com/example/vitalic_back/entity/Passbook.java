@@ -38,7 +38,7 @@ public class Passbook {
     private String out_des;
     //거래 일자
     @Column(name = "tran_date_time")
-    private Long tran_date_time;
+    private LocalDateTime  tran_date_time;
     //거래 구분 0: 통장 1: 카드
     @Column(name = "tran_type")
     private Long tran_type;
