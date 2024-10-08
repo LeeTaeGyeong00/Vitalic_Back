@@ -5,25 +5,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.*;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.time.format.DateTimeFormatter;
-import java.util.Random;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.util.Random;
+
 @Component
 public class PassbookGenerator implements CommandLineRunner {
 
@@ -32,6 +21,8 @@ public class PassbookGenerator implements CommandLineRunner {
 
     // SQL file path
     private static final String SQL_FILE_PATH = "src/main/resources/passbook_data.sql";
+    private static final LocalDateTime INITIAL_DATE = LocalDateTime.of(2022, 10, 1, 20, 33, 0);
+    private int currentBalance;
 
     // Function to generate random transaction amounts
     private int randomAmount(int minAmt, int maxAmt) {
@@ -78,7 +69,7 @@ public class PassbookGenerator implements CommandLineRunner {
 
         // Initial account details
         int initialBalance = 4586400;
-        int currentBalance = initialBalance;
+        currentBalance = initialBalance;
 
         // Generate SQL data
         StringBuilder sqlQueries = new StringBuilder();
@@ -164,49 +155,44 @@ public class PassbookGenerator implements CommandLineRunner {
             currentDate = currentDate.plusDays(1);
         }
 
-        // Write SQL queries to the file
+        // Write to SQL file
         try (FileWriter fileWriter = new FileWriter(SQL_FILE_PATH)) {
             fileWriter.write(sqlQueries.toString());
         }
 
-        // Insert data into the database
         insertData();
     }
 
-    // Create formatted transaction entry
+    // Method to create a transaction entry
     private String createTransaction(String bankName, String accountNumber, int balanceAmt, int inoutType, String inDes, String outDes, LocalDateTime tranDateTime, int tranType, int tranAmt) {
-        int afterBalanceAmt = inoutType == 0 ? balanceAmt + tranAmt : balanceAmt - tranAmt;
-        return String.format("INSERT INTO Passbook (bank_name, account_number, balance_amt, inout_type, in_des, out_des, tran_date_time, tran_type, tran_amt, after_balance_amt) VALUES ('%s', '%s', %d, %d, '%s', '%s', '%s', %d, %d, %d);\n",
-                bankName, accountNumber, balanceAmt, inoutType, inDes, outDes, tranDateTime, tranType, tranAmt, afterBalanceAmt);
+        currentBalance = inoutType == 1 ? currentBalance - tranAmt : currentBalance + tranAmt;
+        return String.format("INSERT INTO Passbook (bank_name, account_number, balance_amt, inout_type, in_des, out_des, tran_date_time, tran_type, tran_amt, after_balance_amt) VALUES ('%s', '%s', %d, %d, '%s', '%s', '%s', %d, %d, %d);",
+                bankName, accountNumber, balanceAmt, inoutType, inDes, outDes, tranDateTime, tranType, tranAmt, currentBalance);
     }
 
-    // Generate random names
+    // Random names generator
     private String getRandomName() {
-        String[] names = {"수민", "서연", "민준", "지민", "예진"};
+        String[] names = {"가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하"};
         return names[new Random().nextInt(names.length)];
     }
 
-    // Get random store names
     private String getRandomStore() {
-        String[] stores = {"CU", "GS25", "7-Eleven", "이마트", "홈플러스"};
+        String[] stores = {"편의점", "마트", "백화점"};
         return stores[new Random().nextInt(stores.length)];
     }
 
-    // Get random cafe names
     private String getRandomCafe() {
-        String[] cafes = {"스타벅스", "이디야", "커피빈", "빽다방", "할리스", "컴포즈 커피", "메가커피"};
+        String[] cafes = {"스타벅스", "이디야", "커피빈"};
         return cafes[new Random().nextInt(cafes.length)];
     }
 
-    // Get random fast food names
     private String getRandomFastFood() {
-        String[] fastFoods = {"맥도날드", "버거킹", "롯데리아", "KFC", "파파이스"};
+        String[] fastFoods = {"맥도날드", "버거킹", "롯데리아"};
         return fastFoods[new Random().nextInt(fastFoods.length)];
     }
 
-    // Get random restaurant names
     private String getRandomRestaurant() {
-        String[] restaurants = {"김밥천국", "참치전문", "중화요리", "일식집", "이탈리안 레스토랑"};
+        String[] restaurants = {"김치찌개집", "초밥집", "한정식"};
         return restaurants[new Random().nextInt(restaurants.length)];
     }
 }
