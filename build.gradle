@@ -27,6 +27,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
@@ -43,6 +44,10 @@ dependencies {
     // Mail and Web
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.springframework.batch:spring-batch-core:5.0.0' // 버전 확인 필요
+    implementation 'org.springframework.batch:spring-batch-integration:5.0.0' // 필요한 경우
+    implementation 'org.springframework:spring-jdbc:5.3.10' // Spring JDBC 의존성 추가
 
     //gpt에서 조사 해온거
     // API 통신용 WebClient

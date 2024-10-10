@@ -2,7 +2,6 @@ package com.example.vitalic_back.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Passbook")
-public class Passbook {
+@Table(name = "EnterPassbook")
+public class EnterPassbook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -40,9 +39,10 @@ public class Passbook {
     //출금처 카테고리 0:입금 1:이체, 2:편의점, 3:마트, 4:웹쇼핑, 5:엔터테인먼트(영화,게임), 6: 카페, 7:패스트푸트, 8:식당, 9:기타
     @Column(name = "out_type")
     private int out_type;
+
     //거래 일자
     @Column(name = "tran_date_time")
-    private LocalDateTime  tran_date_time;
+    private LocalDateTime tran_date_time;
     //거래 구분 0: 통장 1: 카드
     @Column(name = "tran_type")
     private Long tran_type;
