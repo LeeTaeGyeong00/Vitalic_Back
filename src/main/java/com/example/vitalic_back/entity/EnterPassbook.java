@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 public class EnterPassbook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Long tran_id;
+    private Long id;
     //은행 기관 명
     @Column(name = "bank_name")
     private String bank_name;

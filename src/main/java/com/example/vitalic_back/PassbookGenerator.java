@@ -68,12 +68,12 @@ public class PassbookGenerator implements CommandLineRunner {
         LocalDate currentDate = startDate;
 
         // Initial account details
-        int initialBalance = 4586400;
+        int initialBalance = 16586400;
         currentBalance = initialBalance;
 
         // Generate SQL data
         StringBuilder sqlQueries = new StringBuilder();
-        sqlQueries.append("INSERT INTO Passbook (bank_name, account_number, balance_amt, inout_type, in_des, out_des, out_type ,tran_date_time, tran_type, tran_amt, after_balance_amt)\n");
+        sqlQueries.append("INSERT INTO vitalic.passbook (bank_name, account_number, balance_amt, inout_type, in_des, out_des, out_type ,tran_date_time, tran_type, tran_amt, after_balance_amt)\n");
         sqlQueries.append("VALUES ('신한은행', '110490816690', ").append(initialBalance).append(", 0, '초기잔액', '내 신한은행 110490816690',0, NOW(), 0, 0, ").append(initialBalance).append(");\n");
 
         // Generate transactions for each day
@@ -92,7 +92,7 @@ public class PassbookGenerator implements CommandLineRunner {
 
             if (currentDate.getDayOfMonth() == 15) {
                 LocalDateTime tranDateTime = generateRandomTime(currentDate, true);
-                sqlQueries.append(createTransaction("신한은행", "110490816690", currentBalance, 0, "대림대학교", "내 신한은행 110490816690", 0,tranDateTime, 0, 2000000));
+                sqlQueries.append(createTransaction("신한은행", "110490816690", currentBalance, 0, "대림대학교", "내 신한은행 110490816690", 0,tranDateTime, 0, 3500000));
                 sqlQueries.append(createTransaction("신한은행", "110490816690", currentBalance, 1, "넷플릭스", "내 신한은행 110490816690", 5,tranDateTime, 0, 13500));
                 sqlQueries.append(createTransaction("신한은행", "110490816690", currentBalance, 1, "KB손해보험", "내 신한은행 110490816690", 9, tranDateTime, 0, 50000));
             }
@@ -106,16 +106,16 @@ public class PassbookGenerator implements CommandLineRunner {
             // Generate random transactions (4 ~ 7개 사이)
             for (int i = 0; i < 4 + new Random().nextInt(4); i++) {
                 // Random deposits
-                if (Math.random() < 0.2) {
-                    int tranAmt = randomAmount(10000, 80000);
+                if (Math.random() < 0.08) {
+                    int tranAmt = randomAmount(10000, 30000);
                     String personName = "김" + getRandomName();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
                     sqlQueries.append(createTransaction("신한은행", "110490816690", currentBalance, 0, personName + " 이체", "내 신한은행 110490816690", 0, randomTranDateTime, 0, tranAmt));
                 }
 
                 // Random withdrawals
-                if (Math.random() < 0.15) {
-                    int tranAmt = randomAmount(10000, 70000);
+                if (Math.random() < 0.08) {
+                    int tranAmt = randomAmount(10000, 30000);
                     String personName = "박" + getRandomName();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
                     sqlQueries.append(createTransaction("신한은행", "110490816690", currentBalance, 1,
@@ -123,7 +123,7 @@ public class PassbookGenerator implements CommandLineRunner {
                 }
 
                 // Consumer spending
-                if (Math.random() < 0.15) {
+                if (Math.random() < 0.1) {
                     int tranAmt = randomAmount(5000, 30000);
                     String store = getRandomStore();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
@@ -131,7 +131,7 @@ public class PassbookGenerator implements CommandLineRunner {
                             currentBalance, 1, store, "내 신한은행 110490816690", 3, randomTranDateTime, 1, tranAmt));
                 }
 
-                if (Math.random() < 0.25) {
+                if (Math.random() < 0.15) {
                     int tranAmt = randomAmount(3000, 15000);
                     String cafe = getRandomCafe();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
@@ -141,37 +141,37 @@ public class PassbookGenerator implements CommandLineRunner {
 
                 // Additional consumer categories
                 if (Math.random() < 0.15) {
-                    int tranAmt = randomAmount(5000, 10000);
+                    int tranAmt = randomAmount(5000, 15000);
                     String fastfood = getRandomFastFood();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
                     sqlQueries.append(createTransaction("신한은행", "110490816690",
                             currentBalance, 1, fastfood, "내 신한은행 110490816690",7, randomTranDateTime, 1, tranAmt));
                 }
 
-                if (Math.random() < 0.1) {
-                    int tranAmt = randomAmount(12000, 40000);
+                if (Math.random() < 0.08) {
+                    int tranAmt = randomAmount(12000, 30000);
                     String restaurant = getRandomRestaurant();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
                     sqlQueries.append(createTransaction("신한은행", "110490816690", currentBalance,
                             1, restaurant,  "내 신한은행 110490816690",8, randomTranDateTime, 1, tranAmt));
                 }
 
-                if (Math.random() < 0.3) {
+                if (Math.random() < 0.14) {
                     int tranAmt = randomAmount(8000, 20000);
                     String restaurant = getRandomConvenientStore();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
                     sqlQueries.append(createTransaction("신한은행", "110490816690",
                             currentBalance, 1, restaurant, "내 신한은행 110490816690",2, randomTranDateTime, 1, tranAmt));
                 }
-                if (Math.random() < 0.15) {
-                    int tranAmt = randomAmount(20000, 800000);
+                if (Math.random() < 0.12) {
+                    int tranAmt = randomAmount(20000, 100000);
                     String restaurant = getRandomWebShop();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
                     sqlQueries.append(createTransaction("신한은행", "110490816690",
                             currentBalance, 1, restaurant, "내 신한은행 110490816690",4, randomTranDateTime, 1, tranAmt));
                 }
                 if (Math.random() < 0.1) {
-                    int tranAmt = randomAmount(10000, 30000);
+                    int tranAmt = randomAmount(10000, 20000);
                     String restaurant = getRandomEntertainment();
                     LocalDateTime randomTranDateTime = generateRandomTime(currentDate, false);
                     sqlQueries.append(createTransaction("신한은행", "110490816690", currentBalance,
@@ -193,7 +193,7 @@ public class PassbookGenerator implements CommandLineRunner {
     // Method to create a transaction entry
     private String createTransaction(String bankName, String accountNumber, int balanceAmt, int inoutType, String inDes, String outDes, int outType, LocalDateTime tranDateTime, int tranType, int tranAmt) {
         currentBalance = inoutType == 1 ? currentBalance - tranAmt : currentBalance + tranAmt;
-        return String.format("INSERT INTO Passbook (bank_name, account_number, balance_amt, inout_type, in_des, out_des, out_type, tran_date_time, tran_type, tran_amt, after_balance_amt) VALUES ('%s', '%s', %d, %d, '%s', '%s', %d,'%s', %d, %d, %d);",
+        return String.format("INSERT INTO vitalic.passbook (bank_name, account_number, balance_amt, inout_type, in_des, out_des, out_type, tran_date_time, tran_type, tran_amt, after_balance_amt) VALUES ('%s', '%s', %d, %d, '%s', '%s', %d,'%s', %d, %d, %d);",
                 bankName, accountNumber, balanceAmt, inoutType, inDes, outDes,outType, tranDateTime, tranType, tranAmt, currentBalance);
     }
 
