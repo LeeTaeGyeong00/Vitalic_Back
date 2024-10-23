@@ -24,6 +24,4 @@ public class FinanceAnalysisLastMonth {
     // 고정 지출
     @Column(name = "fixedExpenditure")
     private Long fixedExpenditure;
-
-
 }

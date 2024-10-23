@@ -16,9 +16,9 @@ import java.util.Collections;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name = "USER")
 public class User extends BaseTimeEntity implements UserDetails {
 
@@ -39,15 +39,21 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(name = "userPH", nullable = false, length = 15)
     private String userPH;
 
+    @Builder.Default
     @Column(name = "regDate", nullable = false)
-//    private LocalDate regDate;
     private LocalDate regDate = LocalDate.now(); // 테스트 임시
 
     @Column(name = "modDate")
     private LocalDateTime modDate;
 
-    @Column(name ="userBudget")
-    private Long userBudget;
+    @Column(name ="userBudgetMonth")
+    private Long userBudgetMonth;
+
+    @Column(name ="userBudgetDay")
+    private Long userBudgetDay;
+
+    @Column(name ="userBudgetWeek")
+    private Long userBudgetWeek;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -72,6 +78,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     public String getUsername() {
         return this.userEmail;
     }
+
 
     public void addUserAuthority() {
         this.role = Role.USER;

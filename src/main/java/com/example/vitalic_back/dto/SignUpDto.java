@@ -1,4 +1,4 @@
-package com.example.vitalic_back.DTO;
+package com.example.vitalic_back.dto;
 
 import com.example.vitalic_back.entity.Role;
 import com.example.vitalic_back.entity.User;
@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @Builder

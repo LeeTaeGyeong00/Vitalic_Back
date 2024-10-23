@@ -1,7 +1,8 @@
 package com.example.vitalic_back.config;
 
-import com.example.vitalic_back.Service.CustomUserDetailService;
+
 import com.example.vitalic_back.jwt.JwtTokenProvider;
+import com.example.vitalic_back.service.CustomUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -70,6 +74,7 @@ public class SecurityConfig {
                             .requestMatchers("/user/mypage").hasRole("USER")
                             .anyRequest().authenticated()
                     )
+
                     .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);;
             return http.build();
         }
@@ -78,7 +83,6 @@ public class SecurityConfig {
             return customUserDetailService;
         }
     }
-
 
 
     // 무시할 경로
@@ -102,6 +106,5 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/h2/**"
     };
-
 
 }

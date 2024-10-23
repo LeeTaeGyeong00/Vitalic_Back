@@ -35,7 +35,6 @@ public class Passbook {
     //출금처
     @Column(name = "out_des")
     private String out_des;
-
     //출금처 카테고리 0:입금 1:이체, 2:편의점, 3:마트, 4:웹쇼핑, 5:엔터테인먼트(영화,게임), 6: 카페, 7:패스트푸트, 8:식당, 9:기타
     @Column(name = "out_type")
     private int out_type;

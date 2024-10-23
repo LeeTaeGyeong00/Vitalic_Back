@@ -10,24 +10,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
-//@Configuration
-//public class MetaDBConfig {
-//
-//    @Primary
-//    @Bean
-//    @ConfigurationProperties(prefix = "spring.datasource-meta")
-//    public DataSource metaDBSource() {
-//
-//        return DataSourceBuilder.create().build();
-//    }
-//
-//    @Primary
-//    @Bean
-//    public PlatformTransactionManager metaTransactionManager() {
-//
-//        return new DataSourceTransactionManager(metaDBSource());
-//    }
-//}
 @Configuration
 public class MetaDBConfig {
 
@@ -37,7 +19,7 @@ public class MetaDBConfig {
     public DataSource metaDBSource() {
         return DataSourceBuilder.create().build();
     }
-
+    
     @Primary
     @Bean
     public PlatformTransactionManager metaTransactionManager() {

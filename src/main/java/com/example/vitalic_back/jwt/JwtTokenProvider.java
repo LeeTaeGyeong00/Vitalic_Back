@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +30,8 @@ public class JwtTokenProvider {
     private final CustomUserDetailService userDetailsService;
     private String secretKey =
             "c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK";
+    Key key = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), SignatureAlgorithm.HS256.getJcaName());
+
     // 토큰 유효시간 168 시간(7일)
     private long tokenValidTime = 1440 * 60 * 7 * 1000L;
     private final CustomUserDetailService userDetailService;
@@ -45,10 +50,10 @@ public class JwtTokenProvider {
         claims.put("roles", roles); // key/value 쌍으로 저장
         Date now = new Date();
         String token = Jwts.builder()
-                .setClaims(claims) // 정보 저장
-                .setIssuedAt(now) // 토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + tokenValidTime))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         logger.debug("Generated Token: " + token);
@@ -63,7 +68,12 @@ public class JwtTokenProvider {
     }
 
     public String getUserPk(String token) {
-        String userPk = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        String userPk = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
         logger.debug("Parsed UserPK: " + userPk);
         return userPk;
     }
@@ -76,6 +86,7 @@ public class JwtTokenProvider {
         return null;
     }
 
+
     // 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
         try {
@@ -87,5 +98,13 @@ public class JwtTokenProvider {
             logger.debug("Token Validation Error: " + e.getMessage());
             return false;
         }
+    }
+
+    public Long extractUserNo(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("userNo", Long.class);
     }
 }
