@@ -5,6 +5,7 @@ import com.example.vitalic_back.entity.User;
 
 import java.util.Map;
 
+
 public interface UserService {
 
     Long SignUp(SignUpDto signUpDto) throws Exception;

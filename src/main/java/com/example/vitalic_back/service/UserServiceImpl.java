@@ -6,7 +6,10 @@ import com.example.vitalic_back.jwt.JwtTokenProvider;
 import com.example.vitalic_back.repository.UserRepository;
 import com.example.vitalic_back.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +20,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -59,7 +63,7 @@ public class UserServiceImpl implements UserService {
         List<String> roles = new ArrayList<>();
         roles.add(user.getRole().name());
 
-        return jwtTokenProvider.createToken(user.getUsername(), roles);
+        return jwtTokenProvider.generateToken(user.getUsername(), roles);
     }
 
     @Override
@@ -103,6 +107,7 @@ public class UserServiceImpl implements UserService {
         String text = "당신의 " + budgetType + " 소비량이 설정한 기준을 초과했습니다. 소비량: " + withdrawTotal;
         mailService.sendEmail(email, subject, text);
     }
+
 
     @Transactional
     @Override

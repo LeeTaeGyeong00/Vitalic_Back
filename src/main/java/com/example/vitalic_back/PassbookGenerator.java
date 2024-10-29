@@ -64,7 +64,7 @@ public class PassbookGenerator implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Start date and end date for transactions
         LocalDate startDate = LocalDate.of(2022, 10, 2);
-        LocalDate endDate = LocalDate.of(2024, 10, 2);
+        LocalDate endDate = LocalDate.now();
         LocalDate currentDate = startDate;
 
         // Initial account details
