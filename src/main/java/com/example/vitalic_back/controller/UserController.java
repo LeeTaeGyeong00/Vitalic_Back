@@ -133,9 +133,11 @@ public class UserController {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .body(response);
     }
+
     @GetMapping("/mypage")
     public ResponseEntity<User> getMyPage(Principal principal) {
         String email = principal.getName();
+        System.out.println(email);
         User user = userRepository.findByUserEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         return ResponseEntity.ok(user);
