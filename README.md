@@ -14,7 +14,7 @@
 
 <br>
 
-##  🙋‍♀️ Vitalic_Data_Analysis 주요 기술
+##  🙋‍♀️ Vitalic_Back 주요 기술
 🔨 **환경**
 - Spring Framwork 3.X.X
 - Java 17
